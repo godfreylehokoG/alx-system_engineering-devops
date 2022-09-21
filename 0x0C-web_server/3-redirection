@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#redirect a page
+
+sudo apt-get -y update
+sudo apt-get -y install nginx
+sudo ufw --force enable
+sudo ufw allow 'Nginx HTTP'
+echo 'Hello World!' | sudo tee /var/www/html/index.nginx-debian.html
+sudo chmod 777 /etc/nginx/sites-available/default
+sudo sed -i "s/server_name _;/server_name dev-school.tech;\n\trewrite ^\/redirect_me https:\/\/github.com permanent;/" /etc/nginx/sites-available/default
+sudo service nginx restart
+
