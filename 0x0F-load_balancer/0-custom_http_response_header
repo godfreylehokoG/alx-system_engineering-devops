@@ -3,7 +3,7 @@
 # custom header (on both web-01 and web-02 servers) 
 
 # Clone my repo and setup the server
-git clone https://github.com/habimanasharif/alx-system_engineering-devops.git
+git clone https://github.com/godfreylehokoG/alx-system_engineering-devops
 cd alx-system_engineering-devops/0x0C-web_server || exit
 ./1-install_nginx_web_server
 ./3-redirection
