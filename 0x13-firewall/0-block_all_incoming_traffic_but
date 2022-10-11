@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+# Block all incoming traffic except SSH, HTTP and HTTPS.
 sudo apt-get install ufw
 sudo ufw status
 sudo ufw enable -y
