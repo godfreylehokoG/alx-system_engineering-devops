@@ -3,29 +3,30 @@
 for a given employee ID,
 to export dara in CSV format.
 """
-if __name__ == "__main__":
+import requests
+from sys import argv
 
-    import requests
-    import sys
 
-    API = "https://jsonplaceholder.typicode.com"
+def main():
+    '''Program starts here'''
+    user_id = argv[1]
+    user_name = requests.get(
+        'https://jsonplaceholder.typicode.com/users/' +
+        user_id).json().get('name')
+    # print("USER: ", user)
 
-    if len(sys.argv) > 1:
-        userId = sys.argv[1]
-        user = requests.get('{}/users/{}'.format(API, userId)).json()
-        userName = user.get('name')
-        userTodo = requests.get('{}/todos'.format(API)).json()
-        totalTasks = 0
-        completed = 0
+    completed_tasks = requests.get(
+        'https://jsonplaceholder.typicode.com/todos',
+        params={'userId': user_id, 'completed': 'true'}).json()
+    all_tasks = requests.get(
+        'https://jsonplaceholder.typicode.com/todos',
+        params={'userId': user_id}).json()
 
-        for task in userTodo:
-            if task.get('userId') == int(userId):
-                totalTasks += 1
-                if task.get('completed'):
-                    completed += 1
+    print("Employee", user_name, "is done with tasks(" +
+          str(len(completed_tasks)) + "/" + str(len(all_tasks)) + "):")
+    for i in completed_tasks:
+        print("\t " + i['title'])
 
-        print('Employee {} is done with tasks({}/{}):'
-              .format(userName, completed, totalTasks))
 
-        print('\n'.join(["\t " + task.get('title') for task in userTodo
-              if task.get('userId') == int(userId) and task.get('completed')]))
+if __name__ == '__main__':
+    main()
